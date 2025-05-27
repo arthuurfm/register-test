@@ -8,4 +8,3 @@ const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`Servidor escutando na porta ${port}`);
 });
-
