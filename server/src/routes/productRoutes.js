@@ -1,69 +1,88 @@
 import express from "express";
 import Product from "../models/Product.js"
+import AppError from "../errors/AppError.js";
 
 const productRoutes = express.Router();
 
 // pega todos os produtos cadastrados.
-productRoutes.get("/", async (req, res) => {
+productRoutes.get("/", async (req, res, next) => {
   try {
     const products = await Product.find();
     if (products.length <= 0) res.status(200).json({message: "Nenhum produto cadastrado."});
     else res.status(200).json(products);
   } catch (error) {
-    console.log(error);
+    next(error); // envia pro handler.
   }
 });
 
-// pesquisa um produto pelo nome.
-productRoutes.get("/name/:name", async (req, res) => {
+// filtra os produtos e coloca em ordem de preço.
+productRoutes.get("/price/:sort", async (req, res, next) => {
   try {
-    const findedByName = await Product.find({name: new RegExp(req.params.name, "i")});
-    if (!findedByName) res.status(404).json({message: "Nenhum produto encontrado."}); 
-    else res.status(200).json(findedByName);
+    let order;
+    let isAscending = req.params.sort;
+
+    if (isAscending == "ascending") order = 1;
+    else if (isAscending == "descending") order = -1;
+
+    const sortByPrice = await Product.find().sort({price: order});
+
+    if (!sortByPrice) throw new AppError("Produto não encontrado.", 404);
+    else res.status(200).json(sortByPrice);
   } catch (error) {
-    res.status(400).json({error: "Erro ao encontrar o produto", message: error.message});
+    next(error);
   }
 });
 
-// pesquisa produtos acima com quantidade acima de 0.
-productRoutes.get("/quantity", async (req, res) => {
+// filtra produtos com quantidade acima de 0.
+productRoutes.get("/quantity/in-stock", async (req, res, next) => {
   try {
     // $gt - greater than (maior que).
     const greaterThanZero = await Product.find({quantity: {$gt: 0}});
 
     if (!greaterThanZero || greaterThanZero.length === 0) {
-      res.status(404).json({message: "Nenhum produto encontrado."});
+      throw new AppError("Produto não encontrado.", 404);
     } else {
       res.status(200).json(greaterThanZero);
     } 
   } catch (error) {
-    res.status(400).json({error: "Erro ao encontrar o produto", message: error.message});
+    res.status(500).json({error: "Erro ao encontrar o produto", message: error.message});
   }
 });
 
-// pesquisa produtos com quantidade 0.
-productRoutes.get("/quantity/0", async (req, res) => {
+// filtra produtos com quantidade igual à 0.
+productRoutes.get("/quantity/zero", async (req, res, next) => {
   try {
     // $eq - equal (igual).
     const quantityZero = await Product.find({quantity: {$eq: 0} });
 
     if (!quantityZero || quantityZero.length === 0) {
-      res.status(404).json({message: "Nenhum produto encontrado."});
+      throw new AppError("Produto não encontrado.", 404);
     } else {
       res.status(200).json(quantityZero);
     } 
   } catch (error) {
-    res.status(400).json({error: "Erro ao encontrar o produto", message: error.message});
+      next(error);
   }
-}); 
+});
+
+// filtra produtos pelo nome.
+productRoutes.get("/name/:name", async (req, res, next) => {
+  try {
+    const findedByName = await Product.find({name: new RegExp(req.params.name, "i")});
+    if (!findedByName) throw new AppError("Produto não encontrado.", 404); 
+    else res.status(200).json(findedByName);
+  } catch (error) {
+    next(error);
+  }
+});
 
 // cadastra um produto.
-productRoutes.post("/", async (req, res) => {
+productRoutes.post("/", async (req, res, next) => {
   try {
     const {name, quantity, price} = req.body;
 
     if (quantity <= 0) { 
-      res.status(400).json({error: "Um produto não pode ser cadastrado com estoque igual o menor que 0"});
+      throw new AppError("Um produto não pode ser cadastrado com estoque menor ou igual à 0", 400);
     } else {
       	const newProduct = new Product({name, quantity, price});
         const saveProduct = await newProduct.save();
@@ -71,31 +90,31 @@ productRoutes.post("/", async (req, res) => {
     }
 
   } catch (error) {
-    res.status(400).json({error: "Erro ao cadastrar o produto", message: error.message});
+    next(error)
   }
 });
 
 // deleta um produto pelo nome.
-productRoutes.delete("/name/:name", async (req, res) => {
+productRoutes.delete("/name/:name", async (req, res, next) => {
   try {
     const deleted = await Product.findOneAndDelete(req.params.name);
-    if (!deleted) res.status(404).json({message: "Produto não encontrado."});
+    if (!deleted) throw new AppError("Produto não encontrado.", 404);
     else res.status(200).json({message: "Produto removido!", deleted});
   } catch (error) {
-    res.status(500).json({error: error.message});
+    next(error)
   }
 });
 
 // atualiza um produto pelo nome.
-productRoutes.put("/name/:name", async (req, res) => {
+productRoutes.put("/name/:name", async (req, res, next) => {
   try {
     const updatedProduct = req.body;
     const product = await Product.findOneAndUpdate({name: new RegExp(req.params.name, "i")}, updatedProduct);
 
-    if (!updatedProduct) res.status(404).json({message: "Produto não encontrado."});
+    if (!updatedProduct) throw new AppError("Produto não encontrado.", 404);
     else res.status(200).json({message: "Produto atualizado!", product, updatedProduct});
   } catch (error) {
-    res.status(500).json({error: error.message});
+    next(error);
   }
 });
 
