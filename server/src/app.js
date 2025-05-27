@@ -6,6 +6,6 @@ const app = express();
 
 connectDB();
 app.use(express.json());
-app.use("/", productRoutes);
+app.use("/products", productRoutes);
 
 export default app;
