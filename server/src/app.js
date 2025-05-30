@@ -10,10 +10,18 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+// conexão com o banco mongodb.
 connectDB();
+
 app.use(express.json());
+
+// conectando com o front-end.
 app.use(express.static(path.join(__dirname, "../../client/public")));
+
+// rota produtos.
 app.use("/products", productRoutes);
+
+// gerenciador de erros.
 app.use(errorHandler);
 
 export default app;

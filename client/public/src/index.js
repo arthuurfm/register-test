@@ -14,8 +14,8 @@ export default function index() {
     });
 
     // Fechar modal
-    const cancelButtons = document.querySelectorAll('.cancel-button');
-    cancelButtons.forEach(btn => {
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach(btn => {
       btn.addEventListener('click', () => {
         sections.forEach(section => section.classList.remove('active'));
         overlay.classList.remove('active');
