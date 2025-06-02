@@ -30,7 +30,7 @@
     }
 
     th, td {
-      border: 1px solid #ccc;
+      border: 1px solid #415474;
       background-color: #293e61;
       padding: 8px;
       text-align: left;
@@ -75,29 +75,19 @@
     }
 
     /* Botões de modo */
-    .mode-selector {
-      display: flex;
-      margin: 20px 0;
-    }
-
-    .mode-selector input[type="radio"] {
-      display: none;
-    }
-
-    .mode-selector span {
-      display: block;
-      padding: 10px 20px;
-      margin: 0 2px;
-      background: #1d2c46;
-      cursor: pointer;
+    .new-product-button {
+      padding: 12px 16px;
       border-radius: 10px;
-      transition: 0.3s;
+      border: none;
+      background-color: #1d2c46;
+      color: #ddd;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
     }
 
-    .mode-selector input[type="radio"]:checked + span {
-      background-color: #0043ed;
-      color: white;
-      border-color: #0043ed;
+    .new-product-button:hover {
+      background-color: #293e61;
     }
 
     /* Modal Overlay */
@@ -117,7 +107,7 @@
     }
 
     /* Formulários */
-    .form-section {
+    .register-form, .change-form {
       display: none;
       position: fixed;
       top: 50%;
@@ -131,32 +121,55 @@
       width: 300px;
     }
 
-    .form-section.active {
+    .register-form.active, .change-form.active {
       display: block;
     }
 
-    .form-section h2 {
+    .register-form h2,.change-form h2 {
       margin-bottom: 15px;
       text-align: center;
     }
 
-    .form-section label {
+    .register-form label, .change-form label {
       display: flex;
       flex-direction: column;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       font-size: 14px;
     }
 
-    .form-section input {
+    .register-form input, .change-form input {
       padding: 6px;
-      border: 1px solid #ccc;
+      border: none;
+      outline: none;
       border-radius: 4px;
+      background-color: #415474;
+      color: #fff;
+      margin: 4px 0;
     }
 
-    .form-section button {
+    .register-form button, .change-form button {
       margin-top: 10px;
       padding: 8px;
       width: 100%;
       border: none;
       cursor: pointer;
+      color: #ddd;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+
+    .cancel-button {
+      background-color: #a72b0c;
+    }
+
+    .cancel-button:hover {
+      background-color: #94260b;
+    }
+
+    .submit-button {
+      background-color: #287c0e;
+    }
+
+    .submit-button:hover {
+      background-color: #24700d;
     }
