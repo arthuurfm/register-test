@@ -1,19 +1,18 @@
-import cancel from "./components/cancel.js";
-import newProduct from "./components/newProduct.js";
-import outClick from "./components/outClick.js";
+import closeModal from "./components/closeModal.js";
+import modalNewProduct from "./components/modalNewProduct.js";
 import searchBar from "./components/searchBar.js";
 
 export default function index() {
     // Cria um novo produto.
-    const newProductBtn = document.querySelector('.new-product-button');
-    newProductBtn.addEventListener('click', newProduct);
+    const newProductButton = document.querySelector('.new-product-button');
+    newProductButton.addEventListener('click', modalNewProduct);
 
     // Fechar modal com o botão cancel.
     const cancelButtons = document.querySelectorAll(".cancel-button");
-    cancelButtons.forEach(button => button.addEventListener('click', cancel));
+    cancelButtons.forEach(button => button.addEventListener('click', closeModal));
 
     // Clique fora fecha modal.
-    overlay.addEventListener('click', outClick);
+    overlay.addEventListener('click', closeModal);
 
     // Aciona a busca ao digitar
     const searchInput = document.getElementById("searchInput");

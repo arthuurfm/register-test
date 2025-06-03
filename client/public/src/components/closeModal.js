@@ -1,6 +1,6 @@
-export default function outClick() {
-  const overlay = document.getElementById('overlay');
+export default function closeModal() {
   const sections = document.querySelectorAll('[class*="form"]');
+  const overlay = document.getElementById('overlay');
 
   sections.forEach(section => section.classList.remove('active'));
   overlay.classList.remove('active');

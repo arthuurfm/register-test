@@ -111,7 +111,7 @@
     }
 
     /* Formulários */
-    .register-form, .change-form {
+    .register-form, .change-form, .delete-form {
       display: none;
       position: fixed;
       top: 50%;
@@ -125,7 +125,7 @@
       width: 300px;
     }
 
-    .register-form.active, .change-form.active {
+    .register-form.active, .change-form.active, .delete-form.active {
       display: block;
     }
 
@@ -179,14 +179,17 @@
     }
 
     .buttons {
-      display: none;
+      opacity: 0;
       position: absolute;
       right: 15px;
       top: 5px;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
     }
 
-    .buttons.active {
-      display: block;
+    .row:hover .buttons {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .change-button, .delete-button {
@@ -204,6 +207,14 @@
       background-color: #8dabdd;
     }
 
+    .change-button:hover {
+      background-color: #6d8fca;
+    }
+
     .delete-button {
       background-color: #a72b0c;
+    }
+
+    .delete-button:hover {
+      background-color: #94260b;
     }

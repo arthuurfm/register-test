@@ -1,4 +1,5 @@
-const list = document.getElementById("productTableBody");
+import renderProducts from "../src/components/renderProducts.js";
+
 const name = document.getElementById ("name");
 const quantity = document.getElementById ("quantity");
 const price = document.getElementById ("price");
@@ -8,22 +9,7 @@ export async function loadProducts() {
     const res = await fetch("/products");
     const data = await res.json();
 
-    data.forEach(product => {
-      const item = document.createElement("tr");
-      item.classList.add("row");
-      item.innerHTML = `
-        <td>${product.customId}</td>
-        <td>${product.name}</td>
-        <td>${product.price}</td>
-        <td>${product.quantity}</td>
-        <div class="buttons active">
-          <button class="change-button">🖉</button>
-          <button class="delete-button">🗑</button>
-        </div>
-      `;
-
-      list.appendChild(item);
-    });
+    renderProducts(data);
   } catch (error) {
     console.error("Erro ao buscar produtos:", error);
   }
@@ -31,7 +17,7 @@ export async function loadProducts() {
 
 export async function createProduct() {
   const submit = document.querySelector (".submit-button");
-  submit.addEventListener("click",async () => {
+  submit.addEventListener("click", async () => {
     const product = {
       name: name.value,
       quantity: parseInt(quantity.value),
