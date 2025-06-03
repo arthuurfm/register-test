@@ -3,7 +3,7 @@ import index from "./src/index.js";
 const name = document.getElementById("name");
 const quantity = document.getElementById("quantity");
 const price = document.getElementById("price");
-const submit = document.querySelector(".submit")
+const submit = document.querySelector(".submit-button")
 
 async function loadProducts() {
   try {
@@ -59,6 +59,25 @@ function createProduct() {
       }
     });
 }
+
+
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+
+function searchTable() {
+  const filter = searchInput.value.toLowerCase();
+  const rows = document.querySelectorAll("#productTableBody tr");
+
+  rows.forEach(row => {
+    const rowText = row.textContent.toLowerCase();
+    row.style.display = rowText.includes(filter) ? "" : "none";
+    });
+  }
+
+  // Aciona a busca ao digitar
+  searchInput.addEventListener("input", searchTable);
+
+
 
 index();
 loadProducts();
