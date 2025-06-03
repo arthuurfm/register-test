@@ -13,13 +13,18 @@ async function loadProducts() {
     const list = document.getElementById("productTableBody");
     data.forEach(product => {
       const item = document.createElement("tr");
+      item.classList.add("row");
       item.innerHTML = `
         <td>${product.customId}</td>
         <td>${product.name}</td>
         <td>${product.price}</td>
         <td>${product.quantity}</td>
+        <div class="buttons active">
+          <button class="change-button">🖉</button>
+          <button class="delete-button">🗑</button>
+        </div>
       `;
-
+      
       list.appendChild(item);
     });
   } catch (error) {
@@ -59,25 +64,6 @@ function createProduct() {
       }
     });
 }
-
-
-const searchInput = document.getElementById("searchInput");
-const searchBtn = document.getElementById("searchBtn");
-
-function searchTable() {
-  const filter = searchInput.value.toLowerCase();
-  const rows = document.querySelectorAll("#productTableBody tr");
-
-  rows.forEach(row => {
-    const rowText = row.textContent.toLowerCase();
-    row.style.display = rowText.includes(filter) ? "" : "none";
-    });
-  }
-
-  // Aciona a busca ao digitar
-  searchInput.addEventListener("input", searchTable);
-
-
 
 index();
 loadProducts();
