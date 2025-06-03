@@ -10,10 +10,16 @@ export async function loadProducts() {
 
     data.forEach(product => {
       const item = document.createElement("tr");
+      item.classList.add("row");
       item.innerHTML = `
+        <td>${product.customId}</td>
         <td>${product.name}</td>
         <td>${product.price}</td>
         <td>${product.quantity}</td>
+        <div class="buttons active">
+          <button class="change-button">🖉</button>
+          <button class="delete-button">🗑</button>
+        </div>
       `;
 
       list.appendChild(item);
@@ -23,9 +29,8 @@ export async function loadProducts() {
   }
 }
 
-
 export async function createProduct() {
-  const submit = document.querySelector (".submit")
+  const submit = document.querySelector (".submit-button");
   submit.addEventListener("click",async () => {
     const product = {
       name: name.value,
@@ -33,18 +38,19 @@ export async function createProduct() {
       price: parseFloat(price.value),
     }
     try {
-    const res = await fetch("/products",{
-      method: "POST", 
-      headers: {
-        "content-Type" : "application/json"
-      },
-      body: JSON.stringify(product)
+      const res = await fetch("/products",{
+        method: "POST", 
+        headers: {
+          "content-Type" : "application/json"
+        },
+        body: JSON.stringify(product)
     });
 
     if (!res.ok) {
       throw new Error ("erro ao cadastrar produto")
-      }
+    }
 
+    // limpa os campos após o envio.
     name.value = "" 
     quantity.value = "" 
     price.value = "" 
@@ -52,7 +58,5 @@ export async function createProduct() {
     } catch (error) {
         console.error("Erro ao buscar produtos:", error);
     }
-  })
+  });
 }
-  
-
