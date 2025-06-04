@@ -5,8 +5,7 @@ import Product from "../models/Product.js";
 export async function getAllProducts(_req, res, next) {
   try {
     const products = await Product.find();
-    if (products.length <= 0) res.status(200).json({message: "Nenhum produto cadastrado."});
-    else res.status(200).json(products);
+    res.status(200).json(products);
   } catch (error) {
     next(error); // envia pro handler.
   }
@@ -91,7 +90,6 @@ export async function createProduct(req, res, next) {
     }
 
   } catch (error) {
-    console.error(error.message);
     next(error)
   }
 }
@@ -106,7 +104,6 @@ export async function deleteProductById(req, res, next) {
     else res.status(200).json({message: "Produto removido!", deleted});
 
   } catch (error) {
-    console.error(error.message);
     next(error);
   }
 }

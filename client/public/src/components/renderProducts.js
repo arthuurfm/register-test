@@ -1,8 +1,9 @@
 import modalChangeProduct from "./modalChangeProduct.js";
 const list = document.getElementById("productTableBody");
-list.innerHTML = "";
 
 export default function renderProducts(products) {
+  list.innerHTML = "";
+  
   products.forEach((product, index) => {
     const item = document.createElement("tr");
     item.classList.add("row");

@@ -7,7 +7,15 @@ const price = document.getElementById ("price");
 export async function loadProducts() {
   try {
     const res = await fetch("/products");
+
+    if (!res.ok) throw new Error("Erro na resposta: ", res.status);
+    
     const data = await res.json();
+
+    if (!Array.isArray(data)) {
+      console.error("Resposta inesperada:", data);
+      return;
+    }
 
     renderProducts(data);
   } catch (error) {
@@ -39,6 +47,9 @@ export async function createProduct() {
       throw new Error("erro ao cadastrar produto");
     }
 
+    // carregando os produtos em formato de array ao cadastrar.
+    loadProducts();
+
     // limpa os campos após o envio.
     name.value = "";
     quantity.value = "";
@@ -46,9 +57,6 @@ export async function createProduct() {
 
     form.classList.remove('active');
     overlay.classList.remove('active');
-
-    const data = res.json();
-    renderProducts(data);
       
     } catch (error) {
         console.error("Erro ao buscar produtos:", error);
@@ -75,13 +83,12 @@ export async function deleteProduct() {
         
         if (!res.ok) throw new Error("Erro ao deletar!");
         
-        
         // remove a linha.
         row.remove();
         
-        const data = res.json();
-        renderProducts(data);
-
+        // carregando os produtos em formato de array ao excluir.
+        loadProducts();
+        
       } catch (error) {
         console.error("Erro ao deletar produto:", error);
       }
