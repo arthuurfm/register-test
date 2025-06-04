@@ -20,7 +20,7 @@ export async function createProduct() {
   const form = document.querySelector(`.register-form`);
   const submit = document.querySelector(".submit-button");
   
-  submit.addEventListener("click", async () => {
+  submit.onclick = async () => {
     const product = {
       name: name.value,
       quantity: parseInt(quantity.value),
@@ -46,11 +46,14 @@ export async function createProduct() {
 
     form.classList.remove('active');
     overlay.classList.remove('active');
+
+    const data = res.json();
+    renderProducts(data);
       
     } catch (error) {
         console.error("Erro ao buscar produtos:", error);
     }
-  });
+  };
 }
 
 export async function deleteProduct() {
@@ -58,24 +61,27 @@ export async function deleteProduct() {
   table.addEventListener('click', async (event) => {
     if (event.target.classList.contains("delete-button")) {
       const row = event.target.closest("tr");
-
+      
       if (!row) return;
-
-      const customId = row.dataset.id;
-
+      
+      const id = row.dataset.id;
+      
       // confirmar antes de deletar.
       const confirmed = confirm("Are you sure you want to delete?");
       if (!confirmed) return;
-
+      
       try {
-        const res = await fetch(`/products/${customId}`, {
-          method: "DELETE"
-        });
-
+        const res = await fetch(`/products/${id}`, {method: "DELETE"});
+        
         if (!res.ok) throw new Error("Erro ao deletar!");
-
+        
+        
         // remove a linha.
         row.remove();
+        
+        const data = res.json();
+        renderProducts(data);
+
       } catch (error) {
         console.error("Erro ao deletar produto:", error);
       }

@@ -1,7 +1,5 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import Product from "../models/Product.js";
-import Counter from "../models/Counter.js";
 
 dotenv.config();
 

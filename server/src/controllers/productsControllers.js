@@ -80,6 +80,7 @@ export async function getProductsByName(req, res, next) {
 export async function createProduct(req, res, next) {
   try {
     const {name, quantity, price} = req.body;
+    console.log(req.body);
 
     if (quantity <= 0) { 
       throw new AppError("Um produto não pode ser cadastrado com estoque menor ou igual à 0", 400);
@@ -90,19 +91,22 @@ export async function createProduct(req, res, next) {
     }
 
   } catch (error) {
+    console.error(error.message);
     next(error)
   }
 }
 
-// deleta um produto filtrado pelo nome.
+// deleta um produto filtrado pelo id.
 export async function deleteProductById(req, res, next) {
   try {
-    const deleted = await Product.findOneAndDelete({customId: req.params.customId});
+    const deleted = await Product.findByIdAndDelete({_id: req.params.id});
+    console.log(deleted);
 
     if (!deleted) throw new AppError("Produto não encontrado.", 404);
     else res.status(200).json({message: "Produto removido!", deleted});
 
   } catch (error) {
+    console.error(error.message);
     next(error);
   }
 }
