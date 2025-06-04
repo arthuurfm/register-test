@@ -95,15 +95,15 @@ export async function createProduct(req, res, next) {
 }
 
 // deleta um produto filtrado pelo nome.
-export async function deleteProductByName(req, res, next) {
+export async function deleteProductById(req, res, next) {
   try {
-    const deleted = await Product.findOneAndDelete({name: req.params.name});
+    const deleted = await Product.findOneAndDelete({customId: req.params.customId});
 
     if (!deleted) throw new AppError("Produto não encontrado.", 404);
     else res.status(200).json({message: "Produto removido!", deleted});
 
   } catch (error) {
-    next(error)
+    next(error);
   }
 }
 

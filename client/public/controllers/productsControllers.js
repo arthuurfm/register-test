@@ -16,7 +16,10 @@ export async function loadProducts() {
 }
 
 export async function createProduct() {
-  const submit = document.querySelector (".submit-button");
+  const overlay = document.getElementById('overlay');
+  const form = document.querySelector(`.register-form`);
+  const submit = document.querySelector(".submit-button");
+  
   submit.addEventListener("click", async () => {
     const product = {
       name: name.value,
@@ -33,16 +36,49 @@ export async function createProduct() {
     });
 
     if (!res.ok) {
-      throw new Error ("erro ao cadastrar produto")
+      throw new Error("erro ao cadastrar produto");
     }
 
     // limpa os campos após o envio.
-    name.value = "" 
-    quantity.value = "" 
-    price.value = "" 
-  
+    name.value = "";
+    quantity.value = "";
+    price.value = "";
+
+    form.classList.remove('active');
+    overlay.classList.remove('active');
+      
     } catch (error) {
         console.error("Erro ao buscar produtos:", error);
     }
   });
+}
+
+export async function deleteProduct() {
+  const table = document.getElementById("productTableBody");
+  table.addEventListener('click', async (event) => {
+    if (event.target.classList.contains("delete-button")) {
+      const row = event.target.closest("tr");
+
+      if (!row) return;
+
+      const customId = row.dataset.id;
+
+      // confirmar antes de deletar.
+      const confirmed = confirm("Are you sure you want to delete?");
+      if (!confirmed) return;
+
+      try {
+        const res = await fetch(`/products/${customId}`, {
+          method: "DELETE"
+        });
+
+        if (!res.ok) throw new Error("Erro ao deletar!");
+
+        // remove a linha.
+        row.remove();
+      } catch (error) {
+        console.error("Erro ao deletar produto:", error);
+      }
+    }
+  })
 }

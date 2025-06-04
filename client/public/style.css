@@ -151,7 +151,7 @@
       margin: 4px 0;
     }
 
-    .register-form button, .change-form button {
+    .register-form button, .change-form button, .cancel-button, .delete-btn, .change-btn {
       margin-top: 10px;
       padding: 8px;
       width: 100%;
@@ -160,6 +160,14 @@
       color: #ddd;
       font-weight: bold;
       border-radius: 8px;
+    }
+
+    .delete-btn {
+      background-color: #287c0e;
+    }
+
+    .delete-btn:hover {
+      background-color: #24700d;
     }
 
     .cancel-button {
