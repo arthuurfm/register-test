@@ -162,11 +162,11 @@
       border-radius: 8px;
     }
 
-    .delete-btn {
+    .delete-btn, .change-btn {
       background-color: #287c0e;
     }
 
-    .delete-btn:hover {
+    .delete-btn:hover, .change-btn:hover {
       background-color: #24700d;
     }
 

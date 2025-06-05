@@ -1,3 +1,5 @@
+import modalChangeProduct from "../src/components/modalChangeProduct.js";
+import modalDeleteProduct from "../src/components/modalDeleteProduct.js";
 import renderProducts from "../src/components/renderProducts.js";
 
 const name = document.getElementById ("name");
@@ -74,9 +76,8 @@ export async function deleteProduct() {
       
       const id = row.dataset.id;
       
-      // confirmar antes de deletar.
-      const confirmed = confirm("Are you sure you want to delete?");
-      if (!confirmed) return;
+      const confirmed = await modalDeleteProduct(); // espera o usuário responder (await).
+      if (!confirmed) return; // só deleta se clicar em delete.
       
       try {
         const res = await fetch(`/products/${id}`, {method: "DELETE"});
@@ -94,4 +95,33 @@ export async function deleteProduct() {
       }
     }
   })
+}
+
+export async function changeProduct() {
+  const table = document.getElementById("productTableBody");
+  table.addEventListener("click", async (event) => {
+    if (event.target.classList.contains("change-button")) {
+      const row = event.target.closest("tr");
+      const id = row.dataset.id;
+
+      if (!row) return;
+
+      const updatedProduct = await modalChangeProduct(row);
+      if (!updatedProduct) return;
+
+      try {
+        const res = await fetch(`/products/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json"},
+          body: JSON.stringify(updatedProduct)
+        });
+
+        if (!res.ok) throw new Error("Erro ao atualizar!");
+
+        loadProducts();
+      } catch (error) {
+        console.error("Erro ao atualizar o produto: ", error);
+      }
+    }
+  });
 }

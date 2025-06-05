@@ -108,11 +108,11 @@ export async function deleteProductById(req, res, next) {
   }
 }
 
-// atualiza um produto filtrado pelo nome.
-export async function updateProductByName(req, res, next) {
+// atualiza um produto filtrado pelo id.
+export async function updateProductById(req, res, next) {
   try {
     const updatedProduct = req.body;
-    const product = await Product.findOneAndUpdate({name: new RegExp(req.params.name, "i")}, updatedProduct);
+    const product = await Product.findOneAndUpdate({_id: req.params.id}, updatedProduct);
 
     if (!updatedProduct) throw new AppError("Produto não encontrado.", 404);
     else res.status(200).json({message: "Produto atualizado!", product, updatedProduct});
