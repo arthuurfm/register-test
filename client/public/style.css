@@ -30,7 +30,6 @@
 
     th, td {
       border: 1px solid #868686;
-      background-color: #353535;
       padding: 8px;
       text-align: left;
     }
@@ -41,6 +40,7 @@
 
     tbody tr {
       position: relative;
+      background-color: #353535;
     }
 
     #procurar input[type="text"] {
@@ -184,9 +184,13 @@
       pointer-events: none;
     }
 
-    .row:hover .buttons {
+    .row.active .buttons {
       opacity: 1;
       pointer-events: auto;
+    }
+
+    .row.active {
+      background-color: #646464;
     }
 
     .change-button, .delete-button {

@@ -18,13 +18,19 @@ export default function renderProducts(products) {
       <td>${index + 1}</td>
       <td class="product-name">${product.name}</td>
       <td class="product-price">${formatedPrice}</td>
-      <td class="product-quantity">${product.quantity}</td>
-      <div class="buttons">
-        <button class="change-button">🖉</button>
-        <button class="delete-button">🗑</button>
-      </div>
+      <td class="product-quantity">
+        ${product.quantity}
+        <div class="buttons">
+          <button class="change-button">🖉</button>
+          <button class="delete-button">🗑</button>
+        </div>
+      </td>
     `;
   
+    item.addEventListener('click', () => {
+      document.querySelectorAll(".row").forEach(row => row.classList.remove("active"));
+      item.classList.add("active");
+    })
     list.appendChild(item);
   });
 }
