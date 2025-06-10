@@ -1,3 +1,4 @@
+import filters from "../src/components/filters.js";
 import modalChangeProduct from "../src/components/modalChangeProduct.js";
 import modalDeleteProduct from "../src/components/modalDeleteProduct.js";
 import renderProducts from "../src/components/renderProducts.js";
@@ -8,6 +9,7 @@ const price = document.getElementById ("price");
 
 export async function loadProducts() {
   try {
+
     const res = await fetch("/products");
 
     if (!res.ok) throw new Error("Erro na resposta: ", res.status);
@@ -19,10 +21,17 @@ export async function loadProducts() {
       return;
     }
 
-    renderProducts(data);
+    let filtered = filters(data);
+    renderProducts(filtered);
+
   } catch (error) {
     console.error("Erro ao buscar produtos:", error);
   }
+}
+
+export function filterListeners() {
+  const filterInputs = document.querySelectorAll("input[name='filter']");
+  filterInputs.forEach(input => input.addEventListener('change', loadProducts));
 }
 
 export async function createProduct() {

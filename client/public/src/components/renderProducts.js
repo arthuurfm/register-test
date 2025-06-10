@@ -25,6 +25,6 @@ export default function renderProducts(products) {
       </div>
     `;
   
-    list.appendChild(item);;
+    list.appendChild(item);
   });
 }
