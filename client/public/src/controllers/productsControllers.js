@@ -1,7 +1,7 @@
-import filters from "../src/components/filters.js";
-import modalChangeProduct from "../src/components/modalChangeProduct.js";
-import modalDeleteProduct from "../src/components/modalDeleteProduct.js";
-import renderProducts from "../src/components/renderProducts.js";
+import filters from "../components/filters.js";
+import modalChangeProduct from "../components/modalChangeProduct.js";
+import modalDeleteProduct from "../components/modalDeleteProduct.js";
+import renderProducts from "../components/renderProducts.js";
 
 const name = document.getElementById ("name");
 const quantity = document.getElementById ("quantity");
@@ -9,7 +9,6 @@ const price = document.getElementById ("price");
 
 export async function loadProducts() {
   try {
-
     const res = await fetch("/products");
 
     if (!res.ok) throw new Error("Erro na resposta: ", res.status);

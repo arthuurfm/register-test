@@ -18,6 +18,10 @@ app.use(express.json());
 // conectando com o front-end.
 app.use(express.static(path.join(__dirname, "../../client/public")));
 
+// páginas.
+app.get("/", (req, res) => res.sendFile(path.join(__dirname, "../../client/views/index.html")));
+app.get("/store", (req, res) => res.sendFile(path.join(__dirname, "../../client/views/Loja.html")));
+
 // rota produtos.
 app.use("/products", productRoutes);
 
