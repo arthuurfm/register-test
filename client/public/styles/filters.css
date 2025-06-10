@@ -1,0 +1,38 @@
+/* filtros de radio */
+.filters {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 0.5rem;
+  background-color: #353535;
+  box-sizing: border-box;
+  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+  padding: 0.10rem;
+  width: 400px;
+  font-size: 14px;
+}
+
+.filters .radio {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.filters .radio input {
+  display: none;
+}
+
+.filters .radio .name {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: none;
+  padding: .5rem 0;
+  color: #ddd;
+  transition: all .15s ease-in-out;
+}
+
+.filters .radio input:checked + .name {
+  background-color: #242424;
+}
