@@ -3,7 +3,7 @@ const list = document.getElementById("productTableBody");
 export default function renderProducts(products) {
   list.innerHTML = "";
   
-  products.forEach((product, index) => {
+  products.forEach((product) => {
     const item = document.createElement("tr");
 
     item.classList.add("row");
@@ -15,7 +15,7 @@ export default function renderProducts(products) {
     const formatedPrice = product.price.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
 
     item.innerHTML = `
-      <td>${index + 1}</td>
+      <td>${product.visualIndex}</td>
       <td class="product-name">${product.name}</td>
       <td class="product-price">${formatedPrice}</td>
       <td class="product-quantity">

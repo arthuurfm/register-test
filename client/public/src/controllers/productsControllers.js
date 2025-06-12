@@ -20,7 +20,12 @@ export async function loadProducts() {
       return;
     }
 
-    let filtered = filters(data);
+    const indexedProducts = data.map((product, i) => ({
+      ...product,
+      visualIndex: i + 1
+    }));
+
+    let filtered = filters(indexedProducts);
     renderProducts(filtered);
 
   } catch (error) {
